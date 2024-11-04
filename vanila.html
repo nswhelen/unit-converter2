@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minutes to Hours Converter</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="https://www.unpkg.com/react@18.3.1/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+      function MinutesToHours() {
+        const [amount, setAmount] = React.useState("");
+        const [flipped, setFlipped] = React.useState(false);
+        const onChange = (event) => {
+          setAmount(event.target.value);
+        };
+        const reset = () => setAmount(0);
+        const onFlip = () => {
+          reset();
+          setFlipped((current) => !current);
+        };
+
+        return (
+          <div>
+            <div>
+              <label htmlFor="minutes">Minutes</label>
+              <input
+                value={flipped ? amount * 60 : amount}
+                id="minutes"
+                placeholder="Minutes"
+                type="number"
+                onChange={onChange}
+                disabled={flipped}
+              />
+            </div>
+            <div>
+              <label htmlFor="hours">Hours</label>
+              <input
+                value={flipped ? amount : Math.round(amount / 60)}
+                id="hours"
+                placeholder="Hours"
+                type="number"
+                onChange={onChange}
+                disabled={!flipped}
+              />
+            </div>
+            <button onClick={reset}>Reset</button>
+            <button onClick={onFlip}>
+              {flipped ? "Type Hours" : "Type Minutes"}
+            </button>
+          </div>
+        );
+      }
+      function CmToFeet() {
+        return <h3>CM to Feet</h3>;
+      }
+      function App() {
+        const [index, setIndex] = React.useState("-1");
+        const onSelect = (event) => {
+          setIndex(event.target.value);
+        };
+        return (
+          <div>
+            <h1>Super Converter</h1>
+            <select value={index} onChange={onSelect}>
+              <option value="-1">Select your unit</option>
+              <option value="0">Minutes & Hours</option>
+              <option value="1">Cm & Feet</option>
+            </select>
+            <hr />
+            {index === "-1" ? "Please Select your units" : null}
+            {index === "0" ? <MinutesToHours /> : null}
+            {index === "1" ? <CmToFeet /> : null}
+          </div>
+        );
+      }
+
+      const rootElement = ReactDOM.createRoot(document.getElementById("root"));
+      rootElement.render(<App />);
+    </script>
+  </body>
+</html>
